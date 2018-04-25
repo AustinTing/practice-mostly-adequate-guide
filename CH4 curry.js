@@ -11,18 +11,30 @@ console.log(g(4)) // => 10
 // 练习 1
 // ==============
 // 通过局部调用（partial apply）移除所有参数
-
 var words = function (str) {
   return split(' ', str)
 }
-// A:
-var curriedWords = _.curry(words)
-console.log(curriedWords('Hello world! my name is Austin'))
+// -------------
+// My Ans:
+function split (pattern, str) {
+  return str.split(pattern)
+}
+var partialAppliedWords = _.curry(words)
+console.log(partialAppliedWords('aa bb')) // [ 'aa', 'bb' ]
+// True Ans:
+var words = split(' ')
+
 // 练习 1a
 // ==============
 // 使用 `map` 创建一个新的 `words` 函数，使之能够操作字符串数组
 
 var sentences = undefined
+// --------------
+// My Ans:
+var newWords = _.map(words)
+console.log(newWords(['aa bb cc', 'dd ee', 'f f'])) // [ [ 'aa', 'bb', 'cc' ], [ 'dd', 'ee' ], [ 'f', 'f' ] ]
+// True Ans:
+var sentences = map(words);
 
 // 练习 2
 // ==============
