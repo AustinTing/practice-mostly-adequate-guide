@@ -27,22 +27,34 @@ var words = split(' ')
 // 练习 1a
 // ==============
 // 使用 `map` 创建一个新的 `words` 函数，使之能够操作字符串数组
-
 var sentences = undefined
 // --------------
 // My Ans:
 var newWords = _.map(words)
 console.log(newWords(['aa bb cc', 'dd ee', 'f f'])) // [ [ 'aa', 'bb', 'cc' ], [ 'dd', 'ee' ], [ 'f', 'f' ] ]
 // True Ans:
-var sentences = map(words);
+var sentences = map(words)
 
 // 练习 2
 // ==============
 // 通过局部调用（partial apply）移除所有参数
-
 var filterQs = function (xs) {
-  return filter(function (x) { return match(/q/i, x);  }, xs)
+  return filter(function (x) { return match(/q/i, x) }, xs)
 }
+// --------------
+// My Ans:
+var match = _.curry(function (what, str) {
+  return str.match(what)
+})
+var filter = _.curry(function (f, ary) {
+  return ary.filter(f)
+})
+var findQ = match(/q/i)
+console.log(findQ('I quit!')) // [ 'q', index: 2, input: 'I quit!' ]
+var filterQs = filter(findQ)
+console.log(filterQs(['I quit!', 'You stay!', 'He applies'])) // [ 'I quit!' ]
+// True Ans:
+var filterQs = filter(match(/q/i))
 
 // 练习 3
 // ==============
