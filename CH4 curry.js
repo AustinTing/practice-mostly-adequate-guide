@@ -43,8 +43,8 @@ var filterQs = function (xs) {
 }
 // --------------
 // My Ans:
-var match = _.curry(function (what, str) {
-  return str.match(what)
+var match = _.curry(function (pattern, str) {
+  return str.match(pattern)
 })
 var filter = _.curry(function (f, ary) {
   return ary.filter(f)
