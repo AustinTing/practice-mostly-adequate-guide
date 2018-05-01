@@ -1,4 +1,5 @@
 # practice-mostly-adequate-guide
+This is just a note.
 - [MostlyAdequate/mostly-adequate-guide](https://github.com/MostlyAdequate/mostly-adequate-guide)
 - [JS 函数式编程指南中文版](https://github.com/llh911001/mostly-adequate-guide-chinese)
 ## My Note
