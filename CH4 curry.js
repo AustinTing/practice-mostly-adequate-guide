@@ -61,7 +61,7 @@ var filterQs = filter(match(/q/i))
 // 使用帮助函数 `_keepHighest` 重构 `max` 使之成为 curry 函数
 
 // 无须改动:
-var _keepHighest = function (x, y) { return x >= y ? x : y; }
+var _keepHighest = function (x, y) { return x >= y ? x : y }
 
 // 重构这段代码:
 var max = function (xs) {
@@ -69,12 +69,24 @@ var max = function (xs) {
     return _keepHighest(acc, x)
   }, -Infinity, xs)
 }
-
+// --------------
+// My Ans:
+var max = reduce(_keepHighest, -Infinity) // yes!
+// True Ans: 
+var max = reduce(_keepHighest, -Infinity)
 // 彩蛋 1:
 // ============
 // 包裹数组的 `slice` 函数使之成为 curry 函数
 // //[1,2,3].slice(0, 2)
 var slice = undefined
+// --------------
+// My Ans:
+var curriedSlice = function (start, end, arr) {
+  return arr.slice(start, end)
+}
+var slice0to2 = curriedSlice(0, 2)
+// True Ans: 
+var slice = _.curry(function(start, end, xs){ return xs.slice(start, end); });
 
 // 彩蛋 2:
 // ============
