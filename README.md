@@ -77,5 +77,5 @@ var trace = curry(function(tag, x){
 });
 var dasherize = compose(join('-'), toLower, trace("after split"), split(' '), replace(/\s{2,}/ig, ' '));
 dasherize('The world is a vampire'); // after split [ 'The', 'world', 'is', 'a', 'vampire' ]
-
+```
 
