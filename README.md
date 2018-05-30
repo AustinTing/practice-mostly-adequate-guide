@@ -42,4 +42,40 @@ console.log(g.toString())
 console.log(g(4)) // => 10
 ```
 - 策略性地把要操作的数據（String， Array）放到最后一个参数里
+### CH5 Compose
+#### 函數飼養
+```
+var toUpperCase = function(x) { return x.toUpperCase(); };
+var exclaim = function(x) { return x + '!'; };
+
+// No compose
+var shout = function(x){
+  return exclaim(toUpperCase(x));
+};
+
+// Use compose
+var shout = compose(exclaim, toUpperCase);
+```
+- Instead of inside to outside, we run right to left, which I suppose is a step in the *left direction*.
+- 讓程式碼由左而右進行，更加反應數學上的含義，這種特性也就是結合律
+ - 優點：靈活、可變
+#### pointfree
+- never having to say your data.
+```
+// not pointfree because we mention the data: word
+const snakeCase = word => word.toLowerCase().replace(/\s+/ig, '_');
+
+// pointfree
+const snakeCase = compose(replace(/\s+/ig, '_'), toLowerCase);
+```
+#### debug
+- 用不純的`trace`函數追蹤程式碼情況
+``` 
+var trace = curry(function(tag, x){
+  console.log(tag, x);
+  return x;
+});
+var dasherize = compose(join('-'), toLower, trace("after split"), split(' '), replace(/\s{2,}/ig, ' '));
+dasherize('The world is a vampire'); // after split [ 'The', 'world', 'is', 'a', 'vampire' ]
+
 
