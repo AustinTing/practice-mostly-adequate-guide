@@ -1,6 +1,4 @@
 var _ = require('ramda')
-
-require('./support')
 var accounting = require('accounting')
 
 // 示例数据
@@ -20,11 +18,20 @@ var isLastInStock = function (cars) {
   var last_car = _.last(cars)
   return _.prop('in_stock', last_car)
 }
+// My Ans:
+var isLastInStock = _.compose(_.prop('in_stock'), _.last)
+console.log(isLastInStock(CARS)) // false
+// True Ans:
+var isLastInStock = compose(prop('in_stock'), last);
 
 // 练习 2:
 // ============
 // 使用 _.compose()、_.prop() 和 _.head() 获取第一个 car 的 name
-var nameOfFirstCar = undefined
+// My Ans:
+var nameOfFirstCar = _.compose(_.prop('name'), _.head)
+console.log(nameOfFirstCar(CARS)) // Ferrari FF
+// True Ans:
+var nameOfFirstCar = _.compose(_.prop('name'), _.head)
 
 // 练习 3:
 // ============
@@ -35,6 +42,8 @@ var averageDollarValue = function (cars) {
   var dollar_values = map(function (c) { return c.dollar_value; }, cars)
   return _average(dollar_values)
 }
+
+
 
 // 练习 4:
 // ============
