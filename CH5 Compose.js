@@ -22,7 +22,7 @@ var isLastInStock = function (cars) {
 var isLastInStock = _.compose(_.prop('in_stock'), _.last)
 console.log(isLastInStock(CARS)) // false
 // True Ans:
-var isLastInStock = compose(prop('in_stock'), last);
+// var isLastInStock = compose(prop('in_stock'), last)
 
 // 练习 2:
 // ============
@@ -31,27 +31,34 @@ var isLastInStock = compose(prop('in_stock'), last);
 var nameOfFirstCar = _.compose(_.prop('name'), _.head)
 console.log(nameOfFirstCar(CARS)) // Ferrari FF
 // True Ans:
-var nameOfFirstCar = _.compose(_.prop('name'), _.head)
+// var nameOfFirstCar = _.compose(_.prop('name'), _.head)
 
 // 练习 3:
 // ============
 // 使用帮助函数 _average 重构 averageDollarValue 使之成为一个组合
-var _average = function (xs) { return reduce(add, 0, xs) / xs.length; }; // <- 无须改动
+var _average = function (xs) { return _.reduce(_.add, 0, xs) / xs.length; } // <- 无须改动
 
-var averageDollarValue = function (cars) {
-  var dollar_values = map(function (c) { return c.dollar_value; }, cars)
-  return _average(dollar_values)
-}
-
-
+// var averageDollarValue = function (cars) {
+//   var dollar_values = map(function (c) { return c.dollar_value; }, cars)
+//   return _average(dollar_values)
+// }
+// My Ans:
+var averageDollarValue = _.compose(_average, _.map(_.prop('dollar_value')))
+console.log(averageDollarValue(CARS)) // 790700
+// True Ans:
+var averageDollarValue = _.compose(_average, _.map(_.prop('dollar_value')))
 
 // 练习 4:
 // ============
 // 使用 compose 写一个 sanitizeNames() 函数，返回一个下划线连接的小写字符串：例如：sanitizeNames(["Hello World"]) //=> ["hello_world"]。
 
-var _underscore = replace(/\W+/g, '_'); // <-- 无须改动，并在 sanitizeNames 中使用它
+var _underscore = _.replace(/\W+/g, '_'); // <-- 无须改动，并在 sanitizeNames 中使用它
 
-var sanitizeNames = undefined
+// var sanitizeNames = compose()
+// My Ans:
+// ??
+// True Ans:
+// var sanitizeNames = _.map(_.compose(_underscore, toLowerCase, _.prop('name')))
 
 // 彩蛋 1:
 // ============
@@ -63,6 +70,17 @@ var availablePrices = function (cars) {
     return accounting.formatMoney(x.dollar_value)
   }).join(', ')
 }
+var trace = _.curry(function (tag, x) {
+  console.log(tag, x)
+  return x
+})
+console.log(accounting.formatMoney(99999))
+// My Ans:
+var availablePrices = _.compose(_.join(', '),  _.map(_.compose(accounting.formatMoney, _.prop('dollar_value'))), _.filter(_.prop('in_stock')))
+console.log(availablePrices(CARS)) // $700,000.00, $1,850,000.00
+// True Ans:
+var formatPrice = _.compose(accounting.formatMoney, _.prop('dollar_value'));
+var availablePrices = _.compose(join(', '), _.map(formatPrice), _.filter(_.prop('in_stock')));
 
 // 彩蛋 2:
 // ============
