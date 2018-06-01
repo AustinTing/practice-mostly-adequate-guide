@@ -76,11 +76,11 @@ var trace = _.curry(function (tag, x) {
 })
 console.log(accounting.formatMoney(99999))
 // My Ans:
-var availablePrices = _.compose(_.join(', '),  _.map(_.compose(accounting.formatMoney, _.prop('dollar_value'))), _.filter(_.prop('in_stock')))
+var availablePrices = _.compose(_.join(', '), _.map(_.compose(accounting.formatMoney, _.prop('dollar_value'))), _.filter(_.prop('in_stock')))
 console.log(availablePrices(CARS)) // $700,000.00, $1,850,000.00
 // True Ans:
-var formatPrice = _.compose(accounting.formatMoney, _.prop('dollar_value'));
-var availablePrices = _.compose(join(', '), _.map(formatPrice), _.filter(_.prop('in_stock')));
+var formatPrice = _.compose(accounting.formatMoney, _.prop('dollar_value'))
+// var availablePrices = _.compose(join(', '), _.map(formatPrice), _.filter(_.prop('in_stock')))
 
 // 彩蛋 2:
 // ============
@@ -91,3 +91,8 @@ var fastestCar = function (cars) {
   var fastest = _.last(sorted)
   return fastest.name + ' is the fastest'
 }
+// My Ans:
+var fastestCar = _.compose(_.prop('name'), _.last, _.sortBy(_.prop('horsepower'))) // how to handle string?
+// True Ans:
+var append = _.flip(_.concat)
+var fastestCar = _.compose(append(' is the fastest'), _.prop('name'), _.last, _.sortBy(_.prop('horsepower')))
