@@ -31,11 +31,18 @@
             })
         };
         var mediaUrl = _.compose(_.prop('m'), _.prop('media'));
-        var srcs = _.compose(_.map(mediaUrl), _.prop('items'));
         var img = function (url) {
           return $('<img />', { src: url });
         };
-        var images = _.compose(_.map(img), srcs);
+        //  1. var srcs = _.compose(_.map(mediaUrl), _.prop('items'));
+        //  2. var images = _.compose(_.map(img), srcs);
+        // 1. 2. 利用內聯調用(inline the call)，將 map 排成一行
+        // -> var images = _.compose(_.map(img), _.map(mediaUrl), _.prop('items'))
+        // 利用組合律：compose(map(f), map(g)) == map(compose(f, g))
+        // -> var images = _.compose(_.map(_.compose(img, mediaUrl)), _.prop('items'))
+        // 抽離一部分讓程式好讀些
+        var mediaToImg = _.compose(img, mediaUrl);
+        var images = _.compose(_.map(mediaToImg), _.prop('items'))
         var renderImages = _.compose(Impure.setHtml("body"), images);
         var app = _.compose(Impure.getJSON(renderImages), url);
         app("cats");

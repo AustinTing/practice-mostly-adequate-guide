@@ -78,4 +78,23 @@ var trace = curry(function(tag, x){
 var dasherize = compose(join('-'), toLower, trace("after split"), split(' '), replace(/\s{2,}/ig, ' '));
 dasherize('The world is a vampire'); // after split [ 'The', 'world', 'is', 'a', 'vampire' ]
 ```
+### CH6 Flicker
+- 有原則的重構
+  - map 的組合律
+    ```
+    var law = compose(map(f), map(g)) == map(compose(f, g))
+    ```
+  - Example:
+    ```
+    var srcs = _.compose(_.map(mediaUrl), _.prop('items'));
+    var images = _.compose(_.map(img), srcs);
+    // 利用內聯調用(inline the call)，將 map 排成一行
+    var images = _.compose(_.map(img), _.map(mediaUrl), _.prop('items'))
+    // 利用組合律：compose(map(f), map(g)) == map(compose(f, g)) 
+    var images = _.compose(_.map(_.compose(img, mediaUrl)), _.prop('items'))
+    // 抽離一部分讓程式好讀些
+    var mediaToImg = _.compose(img, mediaUrl);
+    var images = _.compose(_.map(mediaToImg), _.prop('items'))
+    ```
+
 
