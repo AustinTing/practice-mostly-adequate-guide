@@ -96,5 +96,35 @@ dasherize('The world is a vampire'); // after split [ 'The', 'world', 'is', 'a',
     var mediaToImg = _.compose(img, mediaUrl);
     var images = _.compose(_.map(mediaToImg), _.prop('items'))
     ```
+### CH7 Hindley-Milner 類型簽名
+- replace 接受三個参數，分别是 Regex、String 和另一個 String，返回一個 String。
+  - ```
+    // 也可以用分組的方式來看
+    //  replace :: Regex -> (String -> (String -> String))
+    var replace = curry(function(reg, sub, s){
+    return s.replace(reg, sub);
+    });
+    ```
+- Narrowing the Possibility
+  - parametricity 
+  - ```
+    // head :: [a] -> a
+    // 沒有說a是什麼，那a就可以是任何什麼，對任何類型都有一樣的操作
+    // 對陣列的操作就那幾種，我們接著可以用名字去猜測這函數的操作
+    // 這就是縮小可能性範圍
+  - 可以利用類型簽名去查詢想要的函式，[Hoogle](https://www.haskell.org/hoogle/)
+- Free as in Theorem
+  - 在合乎邏輯的情況下自由組合皆等價
+  ```
+  // filter :: (a -> Bool) -> [a] -> [a]
+  compose(map(f), filter(compose(p, f))) == compose(filter(p), map(f))
+  左邊就算資料有通過f的運算但是，filter最後組出來的是最後有通過p的原資料
+  ```
+- Type Constraints
+  - 我們也可以把類型約束成一個特定的對象
+  ```
+  // sort :: Ord a => [a] -> [a]
+  // a 一定是一顆Ord？？
+  ```
 
 
